@@ -2,7 +2,9 @@ node_modules
 yarn-error.log
 .DS-STORE
 out
+dist
 .*
 !.gitignore
 !.eslintrc.js
 !.prettierignore
+!.eslintignore

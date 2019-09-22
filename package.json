@@ -8,6 +8,7 @@
     "precommit": "yarn pretty-quick --staged && yarn eslint . && yarn test",
     "test": "jest",
     "build": "webpack --config webpack.config.js --env prod",
+    "package": "electron-packager . --out=dist",
     "dev": "webpack-dev-server --hot --inline"
   },
   "keywords": [],
