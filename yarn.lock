@@ -734,18 +734,12 @@
   resolved "https://registry.yarnpkg.com/@dwalter/spider-dev-middleware/-/spider-dev-middleware-0.0.1.tgz#f6b99e08775068b4bf6a28bc9f458ce5e4384d1c"
   integrity sha512-iQ7BaJO4Bh3dxOOLbdwWX8l5NEFAjVe08zetqM0w+AsaTGOoivWYdWAoRovLTOHBGNKrFoW2EjRs3u3MJPgIcg==
 
-"@dwalter/spider-hook@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@dwalter/spider-hook/-/spider-hook-1.6.0.tgz#a08f6584245d9007419726b82678975b3b772388"
-  integrity sha512-m7WrjooemyM0aoCJEfmUZ5mlsF1UrXEo1W4KmcvNE/lvEYQDkR0qFMSgv/NoHH/ax1xqeVetCQejFf28JlSGqg==
-  dependencies:
-    "@dwalter/spider-operations" "^1.4.5"
-    "@dwalter/spider-store" "^1.5.0"
-
-"@dwalter/spider-operations@^1.4.5":
+"@dwalter/spider-hook@1.7.0":
   version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@dwalter/spider-operations/-/spider-operations-1.7.0.tgz#148daaa94d65562dc62cac2352ff11850a3bcc15"
-  integrity sha512-faBe/GWc+V4hQFp11BXK47nTsMx6Ubsd0pg0j8EFX9p7muwfZIEesEaZD9ANci2dw4Epu0z4hThhjTmg64heig==
+  resolved "https://registry.yarnpkg.com/@dwalter/spider-hook/-/spider-hook-1.7.0.tgz#d06dc2f3a847912c18958f1d056b251677f2a24c"
+  integrity sha512-VJHcmLy2KeEEIrabEzQScWE5kZA/C+qfcOixSuknBpOl45bctbex7Aa6zAgPhPvnEIfW0xo5C/BkhnEEL61zqw==
+  dependencies:
+    "@dwalter/spider-store" "^1.5.0"
 
 "@dwalter/spider-store@^1.5.0":
   version "1.7.0"
