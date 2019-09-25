@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Router } from './router'
+
 export function App() {
-  return <div>hello world</div>
+  return <Router />
 }

@@ -1,0 +1,1 @@
+export { MainMenuPage } from './mainMenuPage'

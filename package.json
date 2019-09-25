@@ -34,7 +34,7 @@
   "dependencies": {
     "@dwalter/create-reducer": "1.0.3",
     "@dwalter/spider-dev-middleware": "0.0.1",
-    "@dwalter/spider-hook": "1.6.0",
+    "@dwalter/spider-hook": "1.7.0",
     "classnames": "2.2.6",
     "electron": "6.0.10",
     "history": "4.9.0",
