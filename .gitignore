@@ -3,6 +3,7 @@ yarn-error.log
 .DS-STORE
 out
 dist
+*.code-workspace
 .*
 !.gitignore
 !.eslintrc.js
