@@ -1,0 +1,18 @@
+name: Run Checks
+
+on: push
+
+jobs:
+  run-checks:
+    name: Run Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependencies
+        uses: ./.github/actions/npm@v1
+        run: yarn
+      - name:
+        uses: ./.github/actions/npm@v1
+        run: yarn lint
+      - name:
+        uses: ./.github/actions/npm@v1
+        run: yarn test
