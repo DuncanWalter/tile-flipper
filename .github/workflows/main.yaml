@@ -1,0 +1,15 @@
+name: Run Checks
+
+on: push
+
+jobs:
+  run-checks:
+    name: Run Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependencies
+        run: yarn
+      - name:
+        run: yarn lint
+      - name:
+        run: yarn test

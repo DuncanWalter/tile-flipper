@@ -8,3 +8,4 @@ dist
 !.eslintrc.js
 !.prettierignore
 !.eslintignore
+!.github/workflows/main.yaml
