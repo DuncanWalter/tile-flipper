@@ -5,7 +5,8 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "precommit": "yarn pretty-quick --staged && yarn eslint . && yarn test",
+    "precommit": "yarn lint && yarn test",
+    "lint": "yarn pretty-quick --staged && yarn eslint .",
     "test": "jest",
     "build": "webpack --config webpack.config.js --env prod",
     "package": "electron-packager . --out=dist",
