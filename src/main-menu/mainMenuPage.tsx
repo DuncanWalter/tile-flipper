@@ -11,7 +11,9 @@ export function MainMenuPage() {
   if (process.env.NODE_ENV) {
     devMenus = (
       <Fragment>
-        <li>Edit Levels</li>
+        <li onClick={() => dispatch(navigateToUri('level-editor'))}>
+          Edit Levels
+        </li>
       </Fragment>
     )
   }
