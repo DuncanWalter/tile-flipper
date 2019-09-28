@@ -43,7 +43,6 @@ export function LevelEditorPage() {
   const dispatch = useDispatch()
 
   useEventListener('keydown', event => {
-    console.log(event.key)
     switch (event.key) {
       case 'w':
         dispatch(relocateGoat([goatLocation[0], goatLocation[1] - 1]))
