@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from '@dwalter/spider-hook'
 import {
   tilesSelector,
@@ -7,38 +7,69 @@ import {
   relocateGoat,
   Location,
   Tile as TileObject,
+  currentlyPlacingColorSelector,
+  cyclePlacingColor,
+  flipTile,
 } from './editorState'
-import { Dispatch } from '@dwalter/spider-hook/src/types'
+import { utils as SpiderUtils } from '@dwalter/spider-hook'
 
-//
+const useEventListener = ((type: string, handler: Function, options: any) => {
+  const handlerRef = useRef(handler)
 
-let dispatch: Dispatch = () => undefined
-let goatLocation: Location
+  handlerRef.current = handler
 
-window.addEventListener('keydown', event => {
-  switch (event.key) {
-    case 'w':
-      dispatch(relocateGoat([goatLocation[0], goatLocation[1] - 1]))
-      return
+  const deps = [type, options]
 
-    case 'a':
-      dispatch(relocateGoat([goatLocation[0] - 1, goatLocation[1]]))
-      return
+  const shouldUpdate = SpiderUtils.useShouldUpdate(deps)
 
-    case 's':
-      dispatch(relocateGoat([goatLocation[0], goatLocation[1] + 1]))
-      return
+  useEffect(
+    shouldUpdate
+      ? () => {
+          const artificialHandler = (event: Event) => handlerRef.current(event)
 
-    case 'd':
-      dispatch(relocateGoat([goatLocation[0] + 1, goatLocation[1]]))
-      return
-  }
-})
+          addEventListener(type, artificialHandler, options)
+
+          return () => removeEventListener(type, artificialHandler, options)
+        }
+      : (null as any),
+    deps,
+  )
+}) as typeof addEventListener
 
 export function LevelEditorPage() {
+  const currentlyPlacingColor = useSelector(currentlyPlacingColorSelector)
   const tiles = useSelector(tilesSelector)
-  goatLocation = useSelector(goatLocationSelector)
-  dispatch = useDispatch()
+  const goatLocation = useSelector(goatLocationSelector)
+  const dispatch = useDispatch()
+
+  useEventListener('keydown', event => {
+    console.log(event.key)
+    switch (event.key) {
+      case 'w':
+        dispatch(relocateGoat([goatLocation[0], goatLocation[1] - 1]))
+        return
+
+      case 'a':
+        dispatch(relocateGoat([goatLocation[0] - 1, goatLocation[1]]))
+        return
+
+      case 's':
+        dispatch(relocateGoat([goatLocation[0], goatLocation[1] + 1]))
+        return
+
+      case 'd':
+        dispatch(relocateGoat([goatLocation[0] + 1, goatLocation[1]]))
+        return
+
+      case 'c':
+        dispatch(cyclePlacingColor)
+        return
+
+      case ' ':
+        dispatch(flipTile)
+        return
+    }
+  })
 
   return (
     <div
@@ -46,16 +77,17 @@ export function LevelEditorPage() {
         const x = Math.round(event.pageX / 100)
         const y = Math.round(event.pageY / 100)
 
-        dispatch(addTile({ location: [x, y], color: 'black' }))
+        dispatch(addTile({ location: [x, y], color: currentlyPlacingColor }))
       }}
       style={{ width: '100vw', height: '100vh' }}
     >
-      <div>Currently placing tile color: White</div>
-      <div>
-        {tiles.map((tile, i) => (
-          <Tile key={i} tile={tile} />
-        ))}
-      </div>
+      <div>{`Currently placing tile [C]olor: ${currentlyPlacingColor}`}</div>
+      <div>{`Currently placing tile [T]ype: normal`}</div>
+
+      {tiles.map((tile, i) => (
+        <Tile key={i} tile={tile} />
+      ))}
+
       <Goat location={goatLocation} />
     </div>
   )
