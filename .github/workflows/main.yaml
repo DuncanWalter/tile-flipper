@@ -7,12 +7,11 @@ jobs:
     name: Run Checks
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
       - name: Install Dependencies
-        uses: ./.github/actions/npm@v1
         run: yarn
-      - name:
-        uses: ./.github/actions/npm@v1
+      - name: Lint Project
         run: yarn lint
-      - name:
-        uses: ./.github/actions/npm@v1
+      - name: Run Tests
         run: yarn test
