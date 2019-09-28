@@ -62,6 +62,10 @@ function getNeighborsOf(allTiles: Tile[], tile: Tile) {
   )
 }
 
+function notUndefined<T>(t: T | undefined): t is T {
+  return t !== undefined
+}
+
 export function flipTile(dispatch: Dispatch, resolve: Resolve) {
   const goat = resolve(goatReducer)
   const tiles = resolve(tilesSelector)
@@ -81,16 +85,18 @@ export function flipTile(dispatch: Dispatch, resolve: Resolve) {
     }
   })
 
-  return tiles.forEach((tile, i) => {
-    if (flippingTiles.has(tile)) {
-      dispatch(
-        actions.update(i, {
-          ...tile,
-          color: tile.color === 'white' ? 'black' : 'white',
-        }),
-      )
-    }
-  })
+  dispatch(
+    tiles
+      .map((tile, i) => {
+        if (flippingTiles.has(tile)) {
+          return actions.update(i, {
+            ...tile,
+            color: tile.color === 'white' ? 'black' : 'white',
+          })
+        }
+      })
+      .filter(notUndefined),
+  )
 }
 
 const [placingColorReducer, placingColorActions] = createReducer(
