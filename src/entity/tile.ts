@@ -1,5 +1,9 @@
-import { Id, createIdRehydrator } from './id'
+import { createSelector } from '@dwalter/spider-hook'
+import { createReducer, entityTable } from '@dwalter/create-reducer'
+
+import { Id, createIdRehydrator, createIdFactory } from './id'
 import { createRehydratorFactory } from './rehydrate'
+import { Vec2 } from './vec2'
 
 type TileId = Id<'tile'>
 
@@ -19,9 +23,9 @@ type TileBehavior =
     }
   | { type: 'fragile' }
 
-interface Tile {
+export interface Tile {
   id: TileId
-  location: [number, number]
+  location: Vec2
 
   // tile groups will probably need to be an entity type of their own
   group: TileId[]
@@ -29,6 +33,16 @@ interface Tile {
   color: TileColor
   behavior: TileBehavior
 }
+
+type TilesState = Record<
+  string | number,
+  {
+    lock: number
+    entity: Tile
+  }
+>
+
+export const createTileId = createIdFactory('tile')
 
 export const createTileRehydrator = createRehydratorFactory(
   {
@@ -42,3 +56,28 @@ export const createTileRehydrator = createRehydratorFactory(
   },
   createIdRehydrator,
 )
+
+const [reducer, actions] = createReducer(
+  'tiles',
+  {},
+  {
+    ...entityTable<Tile>(tile => tile.id.signature),
+    bulkReplace(state: TilesState, tiles: Iterable<Tile>) {
+      const newState = {} as typeof state
+      for (const tile of tiles) {
+        newState[tile.id.signature] = {
+          lock: 1,
+          entity: tile,
+        }
+      }
+      return newState
+    },
+  },
+)
+
+export const tilesSelector = createSelector(
+  [reducer],
+  tiles => Object.keys(tiles).map(key => tiles[key]!.entity),
+)
+
+export const tileActions = actions

@@ -2,12 +2,14 @@ interface Rehydrator<T = any> {
   (dry: T): T
 }
 
+interface ChildRehydrators extends Map<RehydratorFactory, Rehydrator> {}
+
 interface RehydratorFactory<T = any> {
-  (childRehydrators?: Map<RehydratorFactory, Rehydrator>): (dry: T) => T
+  (childRehydrators?: ChildRehydrators): (dry: T) => T
 }
 
 interface RehydratorFactorySpec<T, C extends RehydratorFactory[]> {
-  getSignature?: (dry: T) => unknown
+  getSignature?: (dry: T) => number | string
   rehydrate(
     dry: T,
     ...children: {
@@ -18,7 +20,9 @@ interface RehydratorFactorySpec<T, C extends RehydratorFactory[]> {
   ): T
 }
 
-// TODO: take a pass at cleaning up
+/**
+ * When objects are stringified and then parsed into a new runtime, any reference equalities within the object are destroyed and the uniqueness of all parsed ids is lost. Rehydration is the process of fixing parsed entities to preserve these desireable behaviors.
+ */
 export function createRehydratorFactory<
   Spec extends RehydratorFactorySpec<any, Children>,
   Children extends RehydratorFactory[],
@@ -27,7 +31,7 @@ export function createRehydratorFactory<
     : never
 >(spec: Spec, ...childRehydratorFactories: Children): RehydratorFactory<T> {
   return function rehydratorFactory(
-    childRehydrators: Map<RehydratorFactory, Rehydrator> = new Map(),
+    childRehydrators: ChildRehydrators = new Map(),
   ) {
     const rehydratedEntities = new Map<unknown, T>()
 
@@ -41,7 +45,7 @@ export function createRehydratorFactory<
     }
 
     function rehydrator(dry: T) {
-      let signature: unknown
+      let signature: number | string
 
       if (!spec.getSignature) return rehydrate(dry)
 
