@@ -41,6 +41,7 @@
     "history": "4.9.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
+    "three": "0.109.0",
     "typestyle": "2.0.1"
   },
   "devDependencies": {
@@ -53,6 +54,7 @@
     "@types/jest": "23.3.5",
     "@types/react": "16.7.20",
     "@types/react-dom": "16.0.11",
+    "@types/three": "0.103.2",
     "@typescript-eslint/eslint-plugin": "2.3.0",
     "@typescript-eslint/parser": "2.3.0",
     "babel-loader": "8.0.4",
