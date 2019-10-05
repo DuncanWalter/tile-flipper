@@ -22,3 +22,15 @@ In general, it's probably best to have a terminal for each process.
 yarn build # run webpack
 yarn package # run electron-packager
 ```
+
+## Testing
+
+```
+yarn test
+```
+
+## Linting
+
+```
+yarn lint
+```
