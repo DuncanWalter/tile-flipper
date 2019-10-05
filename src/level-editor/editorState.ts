@@ -1,33 +1,17 @@
-import { createReducer, arraylike, settable } from '@dwalter/create-reducer'
+import { createReducer, settable } from '@dwalter/create-reducer'
 import { Resolve } from '@dwalter/spider-hook'
 import { Dispatch } from '@dwalter/spider-hook/src/types'
-
-export type Location = [number, number]
-
-export interface Tile {
-  location: Location
-  color: 'white' | 'black'
-}
-
-const [reducer, actions] = createReducer(
-  'tiles',
-  [{ location: [3, 4], color: 'white' }],
-  arraylike<Tile>(),
-)
-
-export const tilesSelector = reducer
-
-export const addTile = actions.add
+import { Vec2, Tile, tilesSelector, tileActions } from '../entity'
 
 const [goatReducer, goatActions] = createReducer(
   'goat',
   [3, 4],
-  settable<Location>(),
+  settable<Vec2>(),
 )
 
 export const goatLocationSelector = goatReducer
 
-export function relocateGoat(newGoat: Location) {
+export function relocateGoat(newGoat: Vec2) {
   return (dispatch: Dispatch, resolve: Resolve) => {
     const goat = resolve(goatReducer)
     const tiles = resolve(tilesSelector)
@@ -87,9 +71,9 @@ export function flipTile(dispatch: Dispatch, resolve: Resolve) {
 
   dispatch(
     tiles
-      .map((tile, i) => {
+      .map(tile => {
         if (flippingTiles.has(tile)) {
-          return actions.update(i, {
+          return tileActions.update({
             ...tile,
             color: tile.color === 'white' ? 'black' : 'white',
           })

@@ -1,16 +1,19 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from '@dwalter/spider-hook'
 import {
-  tilesSelector,
-  addTile,
   goatLocationSelector,
   relocateGoat,
-  Location,
-  Tile as TileObject,
   currentlyPlacingColorSelector,
   cyclePlacingColor,
   flipTile,
 } from './editorState'
+import {
+  tilesSelector,
+  tileActions,
+  Vec2,
+  Tile as TileObject,
+  createTileId,
+} from '../entity'
 import { utils as SpiderUtils } from '@dwalter/spider-hook'
 
 const useEventListener = ((type: string, handler: Function, options: any) => {
@@ -76,7 +79,22 @@ export function LevelEditorPage() {
         const x = Math.round(event.pageX / 100)
         const y = Math.round(event.pageY / 100)
 
-        dispatch(addTile({ location: [x, y], color: currentlyPlacingColor }))
+        dispatch(
+          tileActions.add({
+            id: createTileId(),
+            location: [x, y],
+            group: [
+              /*FIXME*/
+            ],
+            color: currentlyPlacingColor,
+            behavior: {
+              type: 'normal',
+              undersideBehavior: 'normal',
+              undersideColor:
+                currentlyPlacingColor === 'black' ? 'white' : 'black',
+            },
+          }),
+        )
       }}
       style={{ width: '100vw', height: '100vh' }}
     >
@@ -96,7 +114,7 @@ function RenderAnchor({
   location: [x, y],
   children,
 }: {
-  location: [number, number]
+  location: Vec2
   children: ReactNode
 }) {
   return (
@@ -114,7 +132,7 @@ function RenderAnchor({
   )
 }
 
-function Goat({ location }: { location: Location }) {
+function Goat({ location }: { location: Vec2 }) {
   return (
     <RenderAnchor location={location}>
       <div
