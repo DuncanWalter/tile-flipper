@@ -729,11 +729,6 @@
   resolved "https://registry.yarnpkg.com/@dwalter/create-reducer/-/create-reducer-1.0.3.tgz#57c234e7d7b103d862069401b7a9be518726ace5"
   integrity sha512-PrYF79yHo4IEzapGEpn4w3vLQwyEk5NpwEkvx0smJGhGvN+hJ9pLGXBXahpxxLCPDUp8gYrNfzafdfy++jkxIg==
 
-"@dwalter/spider-dev-middleware@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@dwalter/spider-dev-middleware/-/spider-dev-middleware-0.0.1.tgz#f6b99e08775068b4bf6a28bc9f458ce5e4384d1c"
-  integrity sha512-iQ7BaJO4Bh3dxOOLbdwWX8l5NEFAjVe08zetqM0w+AsaTGOoivWYdWAoRovLTOHBGNKrFoW2EjRs3u3MJPgIcg==
-
 "@dwalter/spider-hook@1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@dwalter/spider-hook/-/spider-hook-1.7.0.tgz#d06dc2f3a847912c18958f1d056b251677f2a24c"

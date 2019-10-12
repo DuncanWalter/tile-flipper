@@ -21,6 +21,7 @@ module.exports = {
       },
       rules: {
         // any custom rules we want
+        'no-unused-variables': 'error',
       },
     },
     // nodejs config files

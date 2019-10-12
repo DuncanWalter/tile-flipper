@@ -18,8 +18,8 @@ export function mean(vs: Vec2[]) {
 }
 
 export function magnitude(v: Vec2) {
-  if (v[0] === 0) return v[1]
-  if (v[1] === 0) return v[0]
+  if (v[0] === 0) return Math.abs(v[1])
+  if (v[1] === 0) return Math.abs(v[0])
 
   return Math.sqrt(dot(v, v))
 }

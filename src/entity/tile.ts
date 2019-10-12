@@ -5,7 +5,7 @@ import { Id, createIdRehydrator, createIdFactory } from './id'
 import { createRehydratorFactory } from './rehydrate'
 import { Vec2 } from './vec2'
 
-type TileId = Id<'tile'>
+export type TileId = Id<'tile'>
 
 type TileColor = 'white' | 'black'
 
@@ -74,6 +74,8 @@ const [reducer, actions] = createReducer(
     },
   },
 )
+
+export const tilesReducer = reducer
 
 export const tilesSelector = createSelector(
   [reducer],

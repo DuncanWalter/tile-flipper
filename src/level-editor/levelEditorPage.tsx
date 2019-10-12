@@ -5,7 +5,7 @@ import {
   relocateGoat,
   currentlyPlacingColorSelector,
   cyclePlacingColor,
-  flipTile,
+  tileUnderGoat,
 } from './editorState'
 import {
   tilesSelector,
@@ -15,6 +15,7 @@ import {
   createTileId,
 } from '../entity'
 import { utils as SpiderUtils } from '@dwalter/spider-hook'
+import { flipTile } from './flipState'
 
 const useEventListener = ((type: string, handler: Function, options: any) => {
   const handlerRef = useRef(handler)
@@ -43,6 +44,7 @@ export function LevelEditorPage() {
   const currentlyPlacingColor = useSelector(currentlyPlacingColorSelector)
   const tiles = useSelector(tilesSelector)
   const goatLocation = useSelector(goatLocationSelector)
+  const onTile = useSelector(tileUnderGoat)
   const dispatch = useDispatch()
 
   useEventListener('keydown', event => {
@@ -68,7 +70,9 @@ export function LevelEditorPage() {
         return
 
       case ' ':
-        dispatch(flipTile)
+        if (onTile) {
+          dispatch(flipTile(onTile))
+        }
         return
     }
   })
