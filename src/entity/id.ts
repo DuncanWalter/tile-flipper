@@ -7,6 +7,16 @@ export interface Id<T> {
 
 let nextId = 1
 
+if (sessionStorage && addEventListener) {
+  const sessionNextId = sessionStorage.getItem('@@next-entity-id')
+  if (sessionNextId !== null) {
+    nextId = JSON.parse(sessionNextId)
+  }
+  addEventListener('unload', () =>
+    sessionStorage.setItem('@@next-entity-id', JSON.stringify(nextId)),
+  )
+}
+
 export function createIdFactory<T extends string>(type: T) {
   return function createId(): Id<T> {
     return {

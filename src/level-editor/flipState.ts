@@ -1,6 +1,6 @@
 import { createReducer, entityTable } from '@dwalter/create-reducer'
 import { Tile, TileId, tileActions, tilesReducer, vec2, Vec2 } from '../entity'
-import { Dispatch, Resolve } from '@dwalter/spider-hook/src/types'
+import { Dispatch, Peek } from '@dwalter/spider-hook/src/types'
 
 const [lockedTilesReducer, lockedTilesActions] = createReducer(
   'locked-tiles',
@@ -25,10 +25,10 @@ function sleep(ms: number) {
   }).catch(console.error)
 }
 
-function propagateFlips(dispatch: Dispatch, resolve: Resolve) {
-  const tiles = resolve(tilesReducer)
-  const lockedTiles = resolve(lockedTilesReducer)
-  const flippingTiles = Object.keys(resolve(flippingTilesReducer)).map(
+function propagateFlips(dispatch: Dispatch, peek: Peek) {
+  const tiles = peek(tilesReducer)
+  const lockedTiles = peek(lockedTilesReducer)
+  const flippingTiles = Object.keys(peek(flippingTilesReducer)).map(
     key => tiles[key].entity,
   )
 
@@ -68,21 +68,22 @@ function propagateFlips(dispatch: Dispatch, resolve: Resolve) {
 }
 
 export function flipTile(tile: Tile) {
-  return async function flipTileAction(dispatch: Dispatch, resolve: Resolve) {
-    const alreadyFlipping = !!Object.keys(resolve(flippingTilesReducer)).length
+  return async function flipTileAction(dispatch: Dispatch, peek: Peek) {
+    const alreadyFlipping = !!Object.keys(peek(flippingTilesReducer)).length
 
     if (alreadyFlipping) throw new Error('I refuse to flip because reasons')
 
     dispatch([
-      lockedTilesActions.clear(),
       flippingTilesActions.add(tile.id),
       lockedTilesActions.add(tile.id),
     ])
 
-    while (!!Object.keys(resolve(flippingTilesReducer)).length) {
+    while (Object.keys(peek(flippingTilesReducer)).length) {
       dispatch(propagateFlips)
 
       await sleep(200)
     }
+
+    dispatch(lockedTilesActions.clear())
   }
 }

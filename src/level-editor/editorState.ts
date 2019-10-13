@@ -1,5 +1,5 @@
 import { createReducer, settable } from '@dwalter/create-reducer'
-import { Resolve, createSelector, tuple } from '@dwalter/spider-hook'
+import { Peek, createSelector } from '@dwalter/spider-hook'
 import { Dispatch } from '@dwalter/spider-hook/src/types'
 import { Vec2, tilesSelector } from '../entity'
 
@@ -12,17 +12,18 @@ const [goatReducer, goatActions] = createReducer(
 export const goatLocationSelector = goatReducer
 
 export const tileUnderGoat = createSelector(
-  tuple(goatReducer, tilesSelector),
   (goat, tiles) =>
     tiles.find(
       tile => tile.location[0] === goat[0] && tile.location[1] === goat[1],
     ),
+  goatReducer,
+  tilesSelector,
 )
 
 export function relocateGoat(newGoat: Vec2) {
-  return (dispatch: Dispatch, resolve: Resolve) => {
-    const onTile = resolve(tileUnderGoat)
-    const tiles = resolve(tilesSelector)
+  return (dispatch: Dispatch, peek: Peek) => {
+    const onTile = peek(tileUnderGoat)
+    const tiles = peek(tilesSelector)
 
     if (onTile === undefined) throw 'Hey! Get back to the level!'
 
@@ -47,8 +48,8 @@ const [placingColorReducer, placingColorActions] = createReducer(
 
 export const currentlyPlacingColorSelector = placingColorReducer
 
-export function cyclePlacingColor(dispatch: Dispatch, resolve: Resolve) {
-  const placingColor = resolve(currentlyPlacingColorSelector)
+export function cyclePlacingColor(dispatch: Dispatch, peek: Peek) {
+  const placingColor = peek(currentlyPlacingColorSelector)
 
   switch (placingColor) {
     case 'white':
