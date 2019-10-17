@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from '@dwalter/spider-hook'
+import { useSelector, useDispatch, useShouldUpdate } from '@dwalter/spider-hook'
 import {
   goatLocationSelector,
   relocateGoat,
@@ -14,7 +14,6 @@ import {
   Tile as TileObject,
   createTileId,
 } from '../entity'
-import { utils as SpiderUtils } from '@dwalter/spider-hook'
 import { flipTile } from './flipState'
 
 const useEventListener = ((type: string, handler: Function, options: any) => {
@@ -24,7 +23,7 @@ const useEventListener = ((type: string, handler: Function, options: any) => {
 
   const deps = [type, options]
 
-  const shouldUpdate = SpiderUtils.useShouldUpdate(deps)
+  const shouldUpdate = useShouldUpdate(deps)
 
   useEffect(
     shouldUpdate
@@ -35,7 +34,7 @@ const useEventListener = ((type: string, handler: Function, options: any) => {
 
           return () => removeEventListener(type, artificialHandler, options)
         }
-      : (null as any),
+      : (null as never),
     deps,
   )
 }) as typeof addEventListener

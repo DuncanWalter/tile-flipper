@@ -16,7 +16,6 @@ export function navigateToUri(newUri: string) {
 }
 
 export const getUriPath = createSelector(
-  [reducer],
   rawUri => {
     const match = uri.exec(rawUri)
 
@@ -26,10 +25,10 @@ export const getUriPath = createSelector(
 
     return match[1]
   },
+  reducer,
 )
 
 export const getUriParameters = createSelector(
-  [reducer],
   rawUri => {
     const match = uriParameters.exec(rawUri)
 
@@ -44,4 +43,5 @@ export const getUriParameters = createSelector(
       return null
     }
   },
+  reducer,
 )

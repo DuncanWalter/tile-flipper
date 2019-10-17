@@ -2,7 +2,7 @@ interface Rehydrator<T = any> {
   (dry: T): T
 }
 
-interface ChildRehydrators extends Map<RehydratorFactory, Rehydrator> {}
+type ChildRehydrators = Map<RehydratorFactory, Rehydrator>
 
 interface RehydratorFactory<T = any> {
   (childRehydrators?: ChildRehydrators): (dry: T) => T
@@ -45,11 +45,9 @@ export function createRehydratorFactory<
     }
 
     function rehydrator(dry: T) {
-      let signature: number | string
-
       if (!spec.getSignature) return rehydrate(dry)
 
-      signature = spec.getSignature(dry)
+      const signature = spec.getSignature(dry)
 
       if (rehydratedEntities.has(signature)) {
         return rehydratedEntities.get(signature)!

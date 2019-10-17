@@ -78,8 +78,8 @@ const [reducer, actions] = createReducer(
 export const tilesReducer = reducer
 
 export const tilesSelector = createSelector(
-  [reducer],
   tiles => Object.keys(tiles).map(key => tiles[key]!.entity),
+  reducer,
 )
 
 export const tileActions = actions
