@@ -724,27 +724,29 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@dwalter/create-reducer@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@dwalter/create-reducer/-/create-reducer-1.0.3.tgz#57c234e7d7b103d862069401b7a9be518726ace5"
-  integrity sha512-PrYF79yHo4IEzapGEpn4w3vLQwyEk5NpwEkvx0smJGhGvN+hJ9pLGXBXahpxxLCPDUp8gYrNfzafdfy++jkxIg==
-
-"@dwalter/spider-dev-middleware@0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@dwalter/spider-dev-middleware/-/spider-dev-middleware-0.0.1.tgz#f6b99e08775068b4bf6a28bc9f458ce5e4384d1c"
-  integrity sha512-iQ7BaJO4Bh3dxOOLbdwWX8l5NEFAjVe08zetqM0w+AsaTGOoivWYdWAoRovLTOHBGNKrFoW2EjRs3u3MJPgIcg==
-
-"@dwalter/spider-hook@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@dwalter/spider-hook/-/spider-hook-1.7.0.tgz#d06dc2f3a847912c18958f1d056b251677f2a24c"
-  integrity sha512-VJHcmLy2KeEEIrabEzQScWE5kZA/C+qfcOixSuknBpOl45bctbex7Aa6zAgPhPvnEIfW0xo5C/BkhnEEL61zqw==
+"@dwalter/create-reducer@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@dwalter/create-reducer/-/create-reducer-2.0.4.tgz#92b40693d9d827a0fd844d4ba9206b48342891c2"
+  integrity sha512-ebJTiJcy65bl6iInnlTIIk0dFV6SA+lLsWDfiSYxA0/VUPAd+cp6ACe/EUCN8YMeZWLtCjFzQ4Z57fgOcsnmzg==
   dependencies:
-    "@dwalter/spider-store" "^1.5.0"
+    "@dwalter/spider-store" "^2.0.4"
 
-"@dwalter/spider-store@^1.5.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@dwalter/spider-store/-/spider-store-1.7.0.tgz#899f05f586445e87a78393e03653973a43ff28a3"
-  integrity sha512-S0Tuif8ciVxrgB/gvdKSV++kABDvYi+q0YyzUF9nYqJYLytcF/htB3t0BP6Wet5GMARvK5c1W97ZtpL3I1HJAw==
+"@dwalter/spider-dev-middleware@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@dwalter/spider-dev-middleware/-/spider-dev-middleware-2.0.4.tgz#cc6d5497f2c1e2a13c03596e512b4e03707791a9"
+  integrity sha512-4zeAA5JLEuCpb3TzqaWhGDGzVfBbljl5/BCe4nqQeevwpg5yrc4/K4wYwocOTJsiia+ksyetp7X+TrNHRRw6ZQ==
+
+"@dwalter/spider-hook@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@dwalter/spider-hook/-/spider-hook-2.0.4.tgz#b96f0b706aa3b4f076cb165f88b7ff9ecbfdf06b"
+  integrity sha512-mBRDWIBlRSL8FQnAoHpcPwm727ggOnqmJVXiXeZVR69DtPjnxlDmwcF4P+Hx566d3b3dCFkkXKYypfMraHxGEA==
+  dependencies:
+    "@dwalter/spider-store" "^2.0.4"
+
+"@dwalter/spider-store@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@dwalter/spider-store/-/spider-store-2.0.4.tgz#40b2305827a8896e5d06762afcd21b98d22664f0"
+  integrity sha512-6vpCsp7/hJBnoMY7OGh8fVnB/DgvDBMiNM43hg95xq1s/maufl1VFDKGInvNJHBZPErIssFic5rj/5ckVpLIvg==
 
 "@electron/get@^1.3.0":
   version "1.5.0"

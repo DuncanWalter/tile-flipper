@@ -2,11 +2,12 @@ module.exports = {
   overrides: [
     // src app files
     {
-      files: ['src/**/*.ts'],
+      files: ['**/*.ts', '**/*.tsx'],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint'],
       extends: [
         'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'prettier',
         'prettier/@typescript-eslint',
@@ -20,7 +21,11 @@ module.exports = {
         },
       },
       rules: {
-        // any custom rules we want
+        'no-shadow': 'error',
+        '@typescript-eslint/no-unused-vars': 'error',
+        '@typescript-eslint/no-use-before-define': 'error',
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        'react/display-name': 'off',
       },
     },
     // nodejs config files

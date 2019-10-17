@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "precommit": "yarn lint && yarn test",
-    "lint": "yarn pretty-quick --staged && yarn eslint .",
+    "lint": "yarn pretty-quick --staged && yarn eslint . --ext .js,.ts,.tsx",
     "test": "jest",
     "build": "webpack --config webpack.config.js --env prod",
     "package": "electron-packager . --out=dist",
@@ -33,9 +33,9 @@
     "tabWidth": 2
   },
   "dependencies": {
-    "@dwalter/create-reducer": "1.0.3",
-    "@dwalter/spider-dev-middleware": "0.0.1",
-    "@dwalter/spider-hook": "1.7.0",
+    "@dwalter/create-reducer": "2.0.4",
+    "@dwalter/spider-dev-middleware": "2.0.4",
+    "@dwalter/spider-hook": "2.0.4",
     "classnames": "2.2.6",
     "electron": "6.0.10",
     "history": "4.9.0",

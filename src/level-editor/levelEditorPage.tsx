@@ -1,11 +1,11 @@
 import React, { ReactNode, useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from '@dwalter/spider-hook'
+import { useSelector, useDispatch, useShouldUpdate } from '@dwalter/spider-hook'
 import {
   goatLocationSelector,
   relocateGoat,
   currentlyPlacingColorSelector,
   cyclePlacingColor,
-  flipTile,
+  tileUnderGoat,
 } from './editorState'
 import {
   tilesSelector,
@@ -14,7 +14,7 @@ import {
   Tile as TileObject,
   createTileId,
 } from '../entity'
-import { utils as SpiderUtils } from '@dwalter/spider-hook'
+import { flipTile } from './flipState'
 
 const useEventListener = ((type: string, handler: Function, options: any) => {
   const handlerRef = useRef(handler)
@@ -23,7 +23,7 @@ const useEventListener = ((type: string, handler: Function, options: any) => {
 
   const deps = [type, options]
 
-  const shouldUpdate = SpiderUtils.useShouldUpdate(deps)
+  const shouldUpdate = useShouldUpdate(deps)
 
   useEffect(
     shouldUpdate
@@ -34,7 +34,7 @@ const useEventListener = ((type: string, handler: Function, options: any) => {
 
           return () => removeEventListener(type, artificialHandler, options)
         }
-      : (null as any),
+      : (null as never),
     deps,
   )
 }) as typeof addEventListener
@@ -43,6 +43,7 @@ export function LevelEditorPage() {
   const currentlyPlacingColor = useSelector(currentlyPlacingColorSelector)
   const tiles = useSelector(tilesSelector)
   const goatLocation = useSelector(goatLocationSelector)
+  const onTile = useSelector(tileUnderGoat)
   const dispatch = useDispatch()
 
   useEventListener('keydown', event => {
@@ -68,7 +69,9 @@ export function LevelEditorPage() {
         return
 
       case ' ':
-        dispatch(flipTile)
+        if (onTile) {
+          dispatch(flipTile(onTile))
+        }
         return
     }
   })

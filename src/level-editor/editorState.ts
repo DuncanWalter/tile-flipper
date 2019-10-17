@@ -1,7 +1,7 @@
 import { createReducer, settable } from '@dwalter/create-reducer'
-import { Resolve } from '@dwalter/spider-hook'
+import { Peek, createSelector } from '@dwalter/spider-hook'
 import { Dispatch } from '@dwalter/spider-hook/src/types'
-import { Vec2, Tile, tilesSelector, tileActions } from '../entity'
+import { Vec2, tilesSelector } from '../entity'
 
 const [goatReducer, goatActions] = createReducer(
   'goat',
@@ -11,13 +11,19 @@ const [goatReducer, goatActions] = createReducer(
 
 export const goatLocationSelector = goatReducer
 
-export function relocateGoat(newGoat: Vec2) {
-  return (dispatch: Dispatch, resolve: Resolve) => {
-    const goat = resolve(goatReducer)
-    const tiles = resolve(tilesSelector)
-    const onTile = tiles.find(
+export const tileUnderGoat = createSelector(
+  (goat, tiles) =>
+    tiles.find(
       tile => tile.location[0] === goat[0] && tile.location[1] === goat[1],
-    )
+    ),
+  goatReducer,
+  tilesSelector,
+)
+
+export function relocateGoat(newGoat: Vec2) {
+  return (dispatch: Dispatch, peek: Peek) => {
+    const onTile = peek(tileUnderGoat)
+    const tiles = peek(tilesSelector)
 
     if (onTile === undefined) throw 'Hey! Get back to the level!'
 
@@ -34,55 +40,6 @@ export function relocateGoat(newGoat: Vec2) {
   }
 }
 
-function getNeighborsOf(allTiles: Tile[], tile: Tile) {
-  const [x, y] = tile.location
-
-  return allTiles.filter(
-    otherTile =>
-      otherTile !== tile &&
-      Math.abs(otherTile.location[0] - x) +
-        Math.abs(otherTile.location[1] - y) ===
-        1,
-  )
-}
-
-function notUndefined<T>(t: T | undefined): t is T {
-  return t !== undefined
-}
-
-export function flipTile(dispatch: Dispatch, resolve: Resolve) {
-  const goat = resolve(goatReducer)
-  const tiles = resolve(tilesSelector)
-  const onTile = tiles.find(
-    tile => tile.location[0] === goat[0] && tile.location[1] === goat[1],
-  )
-
-  if (onTile === undefined) throw 'Hey! Get back to the level!'
-
-  const flippingTiles = new Set([onTile])
-
-  // TODO there are better ways that lazy depth first recursion
-  getNeighborsOf(tiles, onTile).forEach(function foo(tile) {
-    if (tile.color === onTile.color && !flippingTiles.has(tile)) {
-      flippingTiles.add(tile)
-      getNeighborsOf(tiles, tile).forEach(foo)
-    }
-  })
-
-  dispatch(
-    tiles
-      .map(tile => {
-        if (flippingTiles.has(tile)) {
-          return tileActions.update({
-            ...tile,
-            color: tile.color === 'white' ? 'black' : 'white',
-          })
-        }
-      })
-      .filter(notUndefined),
-  )
-}
-
 const [placingColorReducer, placingColorActions] = createReducer(
   'placingColor',
   'white',
@@ -91,8 +48,8 @@ const [placingColorReducer, placingColorActions] = createReducer(
 
 export const currentlyPlacingColorSelector = placingColorReducer
 
-export function cyclePlacingColor(dispatch: Dispatch, resolve: Resolve) {
-  const placingColor = resolve(currentlyPlacingColorSelector)
+export function cyclePlacingColor(dispatch: Dispatch, peek: Peek) {
+  const placingColor = peek(currentlyPlacingColorSelector)
 
   switch (placingColor) {
     case 'white':

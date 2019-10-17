@@ -1,9 +1,10 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from '@dwalter/spider-hook'
-import { createDevMiddleware } from '@dwalter/spider-dev-middleware'
+import { createPersistMiddleware } from '@dwalter/spider-dev-middleware'
 
 import { App } from './app'
+import { createDraftStateMiddleware } from '@dwalter/create-reducer'
 
 const anchorElement = document.getElementById('anchor')
 
@@ -12,9 +13,12 @@ if (anchorElement) {
     <Provider
       configureStore={createStore => {
         if (process.env.NODE_ENV === 'development') {
-          return createStore(createDevMiddleware())
+          return createStore(
+            createPersistMiddleware(),
+            createDraftStateMiddleware(),
+          )
         } else {
-          return createStore()
+          return createStore(createDraftStateMiddleware())
         }
       }}
     >
