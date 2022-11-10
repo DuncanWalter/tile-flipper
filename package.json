@@ -37,7 +37,7 @@
     "@dwalter/spider-dev-middleware": "2.0.4",
     "@dwalter/spider-hook": "2.0.4",
     "classnames": "2.2.6",
-    "electron": "6.0.10",
+    "electron": "18.3.7",
     "history": "4.9.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
